@@ -11,12 +11,60 @@ df = pd.io.parsers.read_csv(
 df.columns=['Class label', 'Alcohol', 'Malic acid']
 
 #Alcohol (percent/volumne) and Malic acid (g/l) are measured on different scales
-print(df.head())
+#print(df.head()) #DataFrame
 
 from sklearn import preprocessing
 
+#set Mean and Std Deviation to Standardization Scaler instance
 std_scale = preprocessing.StandardScaler().fit(df[['Alcohol', 'Malic acid']])
+#scale data frame according to set Mean and Std Deviation parameters, using Standardization Scaler instance
 df_std = std_scale.transform(df[['Alcohol', 'Malic acid']])
 
+#set min and max values from Data Frame to MinMaxScaler instance
 minmax_scale = preprocessing.MinMaxScaler().fit(df[['Alcohol', 'Malic acid']])
+#scale data frame according to set min and max values, using Min Max Scaler instance
 df_minmax = minmax_scale.transform(df[['Alcohol', 'Malic acid']])
+
+print(df_std) #converted to numpy array
+#Mean of data set lies at 0 now
+print('mean of Alcohol, using Standardization Scaler = {:.2f}'.format(df_std[:,0].mean()))
+print('mean of Malic Acid, using Standardization Scaler = {:.2f}'.format(df_std[:,1].mean()))
+
+print('mean of Alcohol, using MinMax Scaler = {:.2f}'.format(df_minmax[:,0].mean())) #means are not set to 0 by transformation
+print('mean of Malic Acid, using MinMax Scaler = {:.2f}'.format(df_minmax[:,1].mean())) #means are not set to 0 by transformation
+
+#Min-Max standardizes all values to fall between 1 and 0
+
+print('Min-value after min-max scaling:\nAlcohol={:.2f}, Malic acid={:.2f}'
+      .format(df_minmax[:,0].min(), df_minmax[:,1].min()))
+print('\nMax-value after min-max scaling:\nAlcohol={:.2f}, Malic acid={:.2f}'
+      .format(df_minmax[:,0].max(), df_minmax[:,1].max()))
+
+
+#plotting graphs
+
+
+import matplotlib.pyplot as plt
+
+
+def plot():
+    plt.figure(figsize=(10,10))
+
+    plt.scatter(df['Alcohol'], df['Malic acid'], color='green', label='input scale', alpha=0.5) #input
+
+    plt.scatter(df_std[:,0], df_std[:,1], color='red', label='Standardized [$N  (\mu=0, \; \sigma=1)$]', alpha=0.3) #standardization
+
+    plt.scatter(df_minmax[:,0], df_minmax[:,1], color='blue', label='min-max scaled [min=0, max=1]', alpha=0.3) #normalization
+
+    plt.title('Alcohol and Malic Acid content of the wine dataset')
+    plt.xlabel('Alcohol')
+    plt.ylabel('Malic Acid')
+    plt.legend(loc='upper left')
+    plt.grid()
+    #plt.tight_layout()
+
+
+plot()
+plt.show()
+
+
