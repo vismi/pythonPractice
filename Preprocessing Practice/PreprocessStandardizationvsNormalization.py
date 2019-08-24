@@ -79,8 +79,8 @@ for a,d,l in zip(range(len(ax)),
                 'min-max scaled [min=0, max=1]')            #values for l, label for the graph
                 ):
     for i,c in zip(range(1,4), ('red', 'blue', 'green')):  #looping over the three classes, for individual graph type
-        ax[a].scatter(d[df['Class label'].values == i, 0],
-                  d[df['Class label'].values == i, 1],
+        ax[a].scatter(d[df['Class label'].values == i, 0], #setting value of alcohol amount corresponding to class of wine on x axis
+                  d[df['Class label'].values == i, 1], #ssetting value of malic acid amount corresponding to class of wine to y axis
                   alpha=0.5,
                   color=c,
                   label='Class %s' %i
