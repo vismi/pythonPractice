@@ -48,7 +48,7 @@ import matplotlib.pyplot as plt
 
 
 def plot():
-    plt.figure(figsize=(10,10))
+    plt.figure(figsize=(10,10)) #size of the graph
 
     plt.scatter(df['Alcohol'], df['Malic acid'], color='green', label='input scale', alpha=0.5) #input
 
@@ -68,3 +68,29 @@ plot()
 plt.show()
 
 
+#plots using input, Normalized input and Standardized input to differentiate the three classes
+
+fig, ax = plt.subplots(3, figsize=(6,14))
+
+for a,d,l in zip(range(len(ax)),
+               (df[['Alcohol', 'Malic acid']].values, df_std, df_minmax),
+               ('Input scale',
+                'Standardized [$$N  (\mu=0, \; \sigma=1)$$]',
+                'min-max scaled [min=0, max=1]')
+                ):
+    for i,c in zip(range(1,4), ('red', 'blue', 'green')):
+        ax[a].scatter(d[df['Class label'].values == i, 0],
+                  d[df['Class label'].values == i, 1],
+                  alpha=0.5,
+                  color=c,
+                  label='Class %s' %i
+                  )
+    ax[a].set_title(l)
+    ax[a].set_xlabel('Alcohol')
+    ax[a].set_ylabel('Malic Acid')
+    ax[a].legend(loc='upper left')
+    ax[a].grid()
+
+plt.tight_layout()
+
+plt.show()
