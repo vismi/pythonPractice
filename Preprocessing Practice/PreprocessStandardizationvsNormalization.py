@@ -73,12 +73,12 @@ plt.show()
 fig, ax = plt.subplots(3, figsize=(6,14))
 
 for a,d,l in zip(range(len(ax)),
-               (df[['Alcohol', 'Malic acid']].values, df_std, df_minmax),
+               (df[['Alcohol', 'Malic acid']].values, df_std, df_minmax), #values for d, array of graph data
                ('Input scale',
-                'Standardized [$$N  (\mu=0, \; \sigma=1)$$]',
-                'min-max scaled [min=0, max=1]')
+                'Standardized [$N  (\mu=0, \; \sigma=1)$]',
+                'min-max scaled [min=0, max=1]')            #values for l, label for the graph
                 ):
-    for i,c in zip(range(1,4), ('red', 'blue', 'green')):
+    for i,c in zip(range(1,4), ('red', 'blue', 'green')):  #looping over the three classes, for individual graph type
         ax[a].scatter(d[df['Class label'].values == i, 0],
                   d[df['Class label'].values == i, 1],
                   alpha=0.5,
